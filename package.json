@@ -1,0 +1,28 @@
+{
+  "name": "oilback",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx babel src --out-dir dist",
+    "dev": "npx nodemon",
+    "start": "node dist/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yooncoding/OilBack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yooncoding/OilBack/issues"
+  },
+  "homepage": "https://github.com/Yooncoding/OilBack#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.15.4",
+    "@babel/core": "^7.15.4",
+    "@babel/node": "^7.15.4",
+    "@babel/preset-env": "^7.15.4",
+    "nodemon": "^2.0.12"
+  }
+}
