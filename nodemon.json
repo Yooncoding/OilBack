@@ -1,5 +1,5 @@
 {
   "watch": ["src", ".env"],
-  "exec": "npx babel-node src/app.js",
+  "exec": "npx babel-node src/server.js",
   "ext": "js"
 }

@@ -2,11 +2,11 @@
   "name": "oilback",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "build": "npx babel src --out-dir dist",
     "dev": "npx nodemon",
-    "start": "node dist/app.js"
+    "start": "node dist/server.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,10 @@
     "@babel/node": "^7.15.4",
     "@babel/preset-env": "^7.15.4",
     "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2"
   }
 }
