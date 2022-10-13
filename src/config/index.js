@@ -12,10 +12,15 @@ export default {
   port: parseInt(process.env.PORT),
 
   // database
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+  mysql: {
+    database: process.env.MYSQL_DATABASE,
+    username: process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
+    host: process.env.MYSQL_HOST,
+    timezone: "+09:00",
+    dialect: "mysql",
+    logging: false,
+  },
 
   // cookie
   secret: process.env.SECRET,
