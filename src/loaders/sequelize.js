@@ -1,5 +1,5 @@
 import * as Model from "../models";
-import logger from "../utilis/logger";
+import logger from "../utils/logger";
 
 export default async () => {
   const sequelize = Model.init();

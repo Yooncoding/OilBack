@@ -2,12 +2,12 @@ import express from "express";
 import cors from "cors";
 import routes from "../api/routes";
 import config from "../config";
-import logger from "../utilis/logger";
+import logger from "../utils/logger";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import morgan from "morgan";
-import CustomError from "../utilis/customError";
-import responseDto from "../utilis/customResponse";
+import CustomError from "../utils/customError";
+import responseDto from "../utils/customResponse";
 
 export default (app) => {
   // middleware
