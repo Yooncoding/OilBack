@@ -1,6 +1,7 @@
 import express from "express";
 import config from "./config";
 import loader from "./loaders";
+import logger from "./utilis/logger";
 
 async function startServer() {
   const app = express();
@@ -18,7 +19,7 @@ async function startServer() {
     `);
     })
     .on("error", (err) => {
-      console.error(err);
+      logger.error(err);
       process.exit(1);
     });
 }

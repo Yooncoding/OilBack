@@ -1,4 +1,5 @@
 import * as Model from "../models";
+import logger from "../utilis/logger";
 
 export default async () => {
   const sequelize = Model.init();
@@ -9,6 +10,6 @@ export default async () => {
       console.log("    › SEQUELIZE LOADED");
     })
     .catch((err) => {
-      console.error(err);
+      logger.error(err);
     });
 };
