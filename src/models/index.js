@@ -17,5 +17,11 @@ export function init() {
   User.hasMany(Post, { foreignKey: "userId", targetKey: "id" });
   Post.belongsTo(User, { foreignKey: "userId", targetKey: "id" });
 
+  User.hasMany(SearchHistory, { foreignKey: "userId", targetKey: "id" });
+  SearchHistory.belongsTo(User, { foreignKey: "userId", targetKey: "id" });
+
+  Post.hasMany(PostImage, { foreignKey: "postId", targetKey: "id" });
+  PostImage.belongsTo(Post, { foreignKey: "postId", targetKey: "id" });
+
   return sequelize;
 }
