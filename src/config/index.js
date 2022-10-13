@@ -23,7 +23,7 @@ export default {
   },
 
   // cookie
-  secret: process.env.SECRET,
+  cookie_secret: process.env.COOKIE_SECRET,
 
   // api
   api: { prefix: "/api" },
