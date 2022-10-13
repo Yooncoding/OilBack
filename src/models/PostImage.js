@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-export default class User extends Sequelize.Model {
+export default class PostImage extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -8,24 +8,17 @@ export default class User extends Sequelize.Model {
           defaultValue: Sequelize.UUIDV4,
           primaryKey: true,
         },
-        nickname: {
-          type: Sequelize.STRING(10),
+        image_name: {
+          type: Sequelize.TEXT,
           allowNull: false,
-        },
-        email: {
-          type: Sequelize.STRING(60),
-          allowNull: false,
-        },
-        password: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
+          defaultValue: "post-image-default.png",
         },
       },
       {
         sequelize,
         timestamps: true,
         underscored: true,
-        modelName: "user",
+        modelName: "post_image",
         freezeTableName: true,
         paranoid: true,
         charset: "utf8mb4",

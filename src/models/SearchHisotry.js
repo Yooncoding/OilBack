@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-export default class User extends Sequelize.Model {
+export default class SearchHistory extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -8,16 +8,8 @@ export default class User extends Sequelize.Model {
           defaultValue: Sequelize.UUIDV4,
           primaryKey: true,
         },
-        nickname: {
-          type: Sequelize.STRING(10),
-          allowNull: false,
-        },
-        email: {
-          type: Sequelize.STRING(60),
-          allowNull: false,
-        },
-        password: {
-          type: Sequelize.STRING(255),
+        log: {
+          type: Sequelize.STRING(30),
           allowNull: false,
         },
       },
@@ -25,9 +17,9 @@ export default class User extends Sequelize.Model {
         sequelize,
         timestamps: true,
         underscored: true,
-        modelName: "user",
+        modelName: "search_history",
         freezeTableName: true,
-        paranoid: true,
+        paranoid: false,
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci",
       }
