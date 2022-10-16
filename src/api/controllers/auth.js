@@ -24,6 +24,20 @@ const AuthController = {
       });
     })(req, res, next);
   },
+
+  postEmailKey: async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const key = await AuthService.postEmailKey(email);
+
+      res
+        .cookie("key", key, { expriensIn: "10m" })
+        .status(201)
+        .json(responseDto({ suc: true, data: key }));
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 export default AuthController;
