@@ -55,6 +55,18 @@ const AuthController = {
     }
   },
 
+  checkEmail: async (req, res, next) => {
+    try {
+      const { email } = req.body;
+
+      await AuthService.checkEmail(email);
+
+      res.status(200).json(responseDto({ suc: true }));
+    } catch (err) {
+      next(err);
+    }
+  },
+
   putPassword: async (req, res, next) => {
     try {
       const { email, password } = req.body;

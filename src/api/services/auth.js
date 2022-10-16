@@ -51,6 +51,13 @@ const AuthService = {
     return result;
   },
 
+  checkEmail: async (email) => {
+    const existEmail = await User.findOne({ where: { email } });
+    if (!existEmail) throw new CustomError("NOT_EXIST_EMAIL", 404, `${email}은 가입되지 않은 회원입니다.`);
+
+    return true;
+  },
+
   putPassword: async (email, password) => {
     const existEmail = await User.findOne({ where: { email } });
     if (!existEmail) throw new CustomError("NOT_EXIST_EMAIL", 404, `${email}은 가입되지 않은 회원입니다.`);
