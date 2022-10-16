@@ -8,9 +8,12 @@ import session from "express-session";
 import morgan from "morgan";
 import CustomError from "../utils/customError";
 import responseDto from "../utils/customResponse";
+import passport from "passport";
+import passportConfig from "../utils/passport";
 
 export default (app) => {
   // middleware
+  passportConfig();
   app.use(morgan(":method :status :url :response-time ms", { stream: logger.stream }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
@@ -23,6 +26,8 @@ export default (app) => {
       cookie: { httpOnly: true, secure: true },
     })
   );
+  app.use(passport.initialize());
+  app.use(passport.session());
   app.use(cors());
 
   // router

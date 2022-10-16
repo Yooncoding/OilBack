@@ -8,6 +8,7 @@ function authRouter(root) {
   root.use("/auth", router);
 
   router.post("/register", AuthValidator.register, AuthController.register);
+  router.post("/login", AuthController.login);
 }
 
 export default authRouter;

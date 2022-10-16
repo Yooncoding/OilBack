@@ -1,3 +1,4 @@
+import passport from "passport";
 import responseDto from "../../utils/customResponse";
 import AuthService from "../services/auth";
 
@@ -10,6 +11,18 @@ const AuthController = {
     } catch (err) {
       next(err);
     }
+  },
+
+  login: async (req, res, next) => {
+    passport.authenticate("local", { session: false }, (authError, user) => {
+      if (authError) return next(authError);
+
+      req.login(user, (loginError) => {
+        if (loginError) return next(loginError);
+
+        res.status(201).json(responseDto({ suc: true, mes: "로그인 성공" }));
+      });
+    })(req, res, next);
   },
 };
 
