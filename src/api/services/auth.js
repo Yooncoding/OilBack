@@ -50,6 +50,17 @@ const AuthService = {
 
     return result;
   },
+
+  putPassword: async (email, password) => {
+    const existEmail = await User.findOne({ where: { email } });
+    if (!existEmail) throw new CustomError("NOT_EXIST_EMAIL", 404, `${email}은 가입되지 않은 회원입니다.`);
+
+    const salt = bcrypt.genSaltSync();
+    const encryptedPwd = bcrypt.hashSync(password, salt);
+    await User.update({ password: encryptedPwd }, { where: { email } });
+
+    return true;
+  },
 };
 
 export default AuthService;

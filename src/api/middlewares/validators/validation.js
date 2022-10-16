@@ -26,6 +26,15 @@ const AuthValidator = {
     }
     next();
   },
+
+  putPassword: (req, res, next) => {
+    const value = joi.object({ email: schema.email, password: schema.password }).validate(req.body);
+    if (value.error) {
+      const error = new CustomError("VALID_ERROR", 400, value.error.details[0].message);
+      next(error);
+    }
+    next();
+  },
 };
 
 export { AuthValidator };

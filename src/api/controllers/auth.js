@@ -54,6 +54,18 @@ const AuthController = {
       next(err);
     }
   },
+
+  putPassword: async (req, res, next) => {
+    try {
+      const { email, password } = req.body;
+
+      await AuthService.putPassword(email, password);
+
+      res.status(200).json(responseDto({ suc: true }));
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 export default AuthController;
