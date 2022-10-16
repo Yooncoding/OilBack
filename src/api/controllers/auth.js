@@ -31,9 +31,25 @@ const AuthController = {
       const key = await AuthService.postEmailKey(email);
 
       res
-        .cookie("key", key, { expriensIn: "10m" })
+        .cookie("emailKey", key, { expriensIn: "10m" })
         .status(201)
         .json(responseDto({ suc: true, data: key }));
+    } catch (err) {
+      next(err);
+    }
+  },
+
+  putEmailKey: async (req, res, next) => {
+    try {
+      const { key } = req.body;
+      const { emailKey } = req.cookies;
+
+      await AuthService.putEmailKey(key, emailKey);
+
+      res
+        .clearCookie("emailKey")
+        .status(200)
+        .json(responseDto({ suc: true }));
     } catch (err) {
       next(err);
     }

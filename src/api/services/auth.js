@@ -41,6 +41,15 @@ const AuthService = {
 
     return encryptedKey;
   },
+
+  putEmailKey: async (key, emaliKey) => {
+    if (!emaliKey) throw new CustomError("NOT_COOKIE", 404, "인증번호 전송을 누르지 않아 쿠키가 없습니다.");
+
+    const result = await bcrypt.compare(key, emaliKey);
+    if (!result) throw new CustomError("KEY_IS_WRONG", 400, "인증번호가 일치하지 않습니다.");
+
+    return result;
+  },
 };
 
 export default AuthService;
