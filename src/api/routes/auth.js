@@ -10,7 +10,7 @@ function authRouter(root) {
   router.post("/register", AuthValidator.register, AuthController.register);
   router.post("/login", AuthController.login);
   router.post("/email-key", AuthValidator.postEmailKey, AuthController.postEmailKey);
-  router.put("/email-key", AuthController.putEmailKey);
+  router.put("/check/email-key", AuthController.checkEmailKey);
   router.get("/check/email", AuthController.checkEmail);
   router.put("/password", AuthValidator.putPassword, AuthController.putPassword);
 }

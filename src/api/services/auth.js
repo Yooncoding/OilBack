@@ -42,7 +42,7 @@ const AuthService = {
     return encryptedKey;
   },
 
-  putEmailKey: async (key, emaliKey) => {
+  checkEmailKey: async (key, emaliKey) => {
     if (!emaliKey) throw new CustomError("NOT_COOKIE", 404, "인증번호 전송을 누르지 않아 쿠키가 없습니다.");
 
     const result = await bcrypt.compare(key, emaliKey);

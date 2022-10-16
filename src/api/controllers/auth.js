@@ -39,12 +39,12 @@ const AuthController = {
     }
   },
 
-  putEmailKey: async (req, res, next) => {
+  checkEmailKey: async (req, res, next) => {
     try {
       const { key } = req.body;
       const { emailKey } = req.cookies;
 
-      await AuthService.putEmailKey(key, emailKey);
+      await AuthService.checkEmailKey(key, emailKey);
 
       res
         .clearCookie("emailKey")
