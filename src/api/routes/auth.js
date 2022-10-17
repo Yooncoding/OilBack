@@ -13,7 +13,6 @@ function authRouter(root) {
   router.put("/check/email-key", AuthController.checkEmailKey);
   router.get("/check/email", AuthController.checkEmail);
   router.put("/password", AuthValidator.putPassword, AuthController.putPassword);
-  router.get("/logout", AuthController.logout);
 }
 
 export default authRouter;

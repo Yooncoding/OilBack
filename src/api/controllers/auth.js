@@ -74,18 +74,6 @@ const AuthController = {
       next(err);
     }
   },
-
-  logout: async (req, res, next) => {
-    try {
-      req.logout(req.user, (err) => {
-        if (err) return next(err);
-
-        res.status(200).json(responseDto({ suc: true, mes: "로그아웃 완료. 로그인 페이지로 이동합니다." }));
-      });
-    } catch (err) {
-      next(err);
-    }
-  },
 };
 
 export default AuthController;
