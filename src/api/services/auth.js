@@ -2,7 +2,9 @@ import User from "../../models/User";
 import CustomError from "../../utils/customError";
 import AuthDto from "../dto/auth";
 import bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
 import { generateKey, sendKeyByEmail } from "../../utils/nodemailer";
+import config from "../../config";
 
 const AuthService = {
   register: async (email, password, nickname) => {
@@ -25,9 +27,9 @@ const AuthService = {
     const result = await bcrypt.compare(password, user.password);
     if (!result) throw new CustomError("PASSWORD_IS_WRONG", 401, "비밀번호가 일치하지 않습니다.");
 
-    const data = AuthDto.login(user);
+    const token = jwt.sign({ id: user.id }, config.jwt_secret);
 
-    return data;
+    return token;
   },
 
   postEmailKey: async (email) => {

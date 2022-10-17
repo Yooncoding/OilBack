@@ -1,4 +1,3 @@
-import passport from "passport";
 import responseDto from "../../utils/customResponse";
 import AuthService from "../services/auth";
 
@@ -15,15 +14,14 @@ const AuthController = {
   },
 
   login: async (req, res, next) => {
-    passport.authenticate("local", { session: false }, (authError, user) => {
-      if (authError) return next(authError);
+    try {
+      const { email, password } = req.body;
+      const token = await AuthService.login(email, password);
 
-      req.login(user, (loginError) => {
-        if (loginError) return next(loginError);
-
-        res.status(201).json(responseDto({ suc: true, mes: "로그인 성공" }));
-      });
-    })(req, res, next);
+      res.status(201).json(responseDto({ suc: true, mes: "로그인 성공", data: token }));
+    } catch (err) {
+      next(err);
+    }
   },
 
   postEmailKey: async (req, res, next) => {

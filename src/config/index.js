@@ -24,6 +24,7 @@ export default {
 
   // cookie
   cookie_secret: process.env.COOKIE_SECRET,
+  jwt_secret: process.env.JWT_SECRET,
 
   // mail
   mailOption: {
