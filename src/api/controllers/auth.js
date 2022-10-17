@@ -7,7 +7,8 @@ const AuthController = {
     try {
       const { email, password, nickname } = req.body;
       const data = await AuthService.register(email, password, nickname);
-      res.status(201).json(responseDto({ suc: true, data }));
+
+      res.status(201).json(responseDto({ suc: true, mes: "회원가입 완료", data }));
     } catch (err) {
       next(err);
     }
@@ -33,7 +34,7 @@ const AuthController = {
       res
         .cookie("emailKey", key, { expriensIn: "10m" })
         .status(201)
-        .json(responseDto({ suc: true, data: key }));
+        .json(responseDto({ suc: true, mes: "인증번호 전송 완료", data: key }));
     } catch (err) {
       next(err);
     }
@@ -43,13 +44,12 @@ const AuthController = {
     try {
       const { key } = req.body;
       const { emailKey } = req.cookies;
-
       await AuthService.checkEmailKey(key, emailKey);
 
       res
         .clearCookie("emailKey")
         .status(200)
-        .json(responseDto({ suc: true }));
+        .json(responseDto({ suc: true, mes: "인증번호 확인 완료" }));
     } catch (err) {
       next(err);
     }
@@ -58,7 +58,6 @@ const AuthController = {
   checkEmail: async (req, res, next) => {
     try {
       const { email } = req.body;
-
       await AuthService.checkEmail(email);
 
       res.status(200).json(responseDto({ suc: true }));
@@ -70,10 +69,9 @@ const AuthController = {
   putPassword: async (req, res, next) => {
     try {
       const { email, password } = req.body;
-
       await AuthService.putPassword(email, password);
 
-      res.status(200).json(responseDto({ suc: true }));
+      res.status(200).json(responseDto({ suc: true, mes: "비밀번호 변경 완료" }));
     } catch (err) {
       next(err);
     }
@@ -83,7 +81,7 @@ const AuthController = {
     try {
       req.logout(req.user, (err) => {
         if (err) return next(err);
-        console.log(req.user);
+
         res.status(200).json(responseDto({ suc: true, mes: "로그아웃 완료. 로그인 페이지로 이동합니다." }));
       });
     } catch (err) {

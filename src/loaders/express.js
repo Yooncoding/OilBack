@@ -12,8 +12,10 @@ import passport from "passport";
 import passportConfig from "../utils/passport";
 
 export default (app) => {
-  // middleware
+  // passport config
   passportConfig();
+
+  // middleware
   app.use(morgan(":method :status :url :response-time ms", { stream: logger.stream }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
@@ -23,7 +25,7 @@ export default (app) => {
       secret: config.cookie_secret,
       resave: false,
       saveUninitialized: false,
-      cookie: { httpOnly: true, secure: true },
+      cookie: { httpOnly: true, secure: false },
     })
   );
   app.use(passport.initialize());
