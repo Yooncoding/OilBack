@@ -18,6 +18,17 @@ const auth = {
       next(err);
     }
   },
+
+  isNotLogin: async (req, res, next) => {
+    try {
+      const { authorization } = req.headers;
+      if (authorization) throw new CustomError("ALREADY_LOGIN", 400, "이미 로그인이 되어있습니다. 로그아웃 후 진행해주세요.");
+
+      next();
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 async function tokenVerify(token) {

@@ -1,11 +1,13 @@
 import { Router } from "express";
 import AuthController from "../controllers/auth";
+import auth from "../middlewares/auth/authorization";
 import { AuthValidator } from "../middlewares/validators/validation";
 
 const router = Router();
 
 function authRouter(root) {
   root.use("/auth", router);
+  router.use(auth.isNotLogin);
 
   router.post("/register", AuthValidator.register, AuthController.register);
   router.post("/login", AuthController.login);
