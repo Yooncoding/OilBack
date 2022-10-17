@@ -1,4 +1,4 @@
-import User from "../../models/User";
+import UserService from "./user";
 import CustomError from "../../utils/customError";
 import AuthDto from "../dto/auth";
 import bcrypt from "bcrypt";
@@ -8,20 +8,20 @@ import config from "../../config";
 
 const AuthService = {
   register: async (email, password, nickname) => {
-    const existEmail = await User.findOne({ where: { email } });
+    const existEmail = await UserService.findByEmail(email);
     if (existEmail) throw new CustomError("EXIST_EMAIL", 409, `${email}은 이미 존재하는 이메일입니다.`);
 
-    const existNickname = await User.findOne({ where: { nickname } });
-    if (existNickname) throw new CustomError("EXIST_NICKNAME", 409, `${nickname}은 이미 존재하는 이메일입니다.`);
+    const existNickname = await UserService.findByNickname(nickname);
+    if (existNickname) throw new CustomError("EXIST_NICKNAME", 409, `${nickname}은 이미 존재하는 닉네임입니다.`);
 
-    const user = await User.create({ email, nickname, password });
+    const user = await UserService.createUser(email, nickname, password);
     const data = AuthDto.register(user);
 
     return data;
   },
 
   login: async (email, password) => {
-    const user = await User.findOne({ where: { email } });
+    const user = await UserService.findByEmail(email);
     if (!user) throw new CustomError("REQUIRED_REGISTER", 401, "가입되지 않은 이메일입니다.");
 
     const result = await bcrypt.compare(password, user.password);
@@ -33,7 +33,7 @@ const AuthService = {
   },
 
   postEmailKey: async (email) => {
-    const existEmail = await User.findOne({ where: { email } });
+    const existEmail = await UserService.findByEmail(email);
     if (existEmail) throw new CustomError("EXIST_EMAIL", 409, `${email}은 이미 존재하는 이메일입니다.`);
 
     const key = generateKey();
@@ -54,19 +54,19 @@ const AuthService = {
   },
 
   checkEmail: async (email) => {
-    const existEmail = await User.findOne({ where: { email } });
+    const existEmail = await UserService.findByEmail(email);
     if (!existEmail) throw new CustomError("NOT_EXIST_EMAIL", 404, `${email}은 가입되지 않은 회원입니다.`);
 
     return true;
   },
 
   putPassword: async (email, password) => {
-    const existEmail = await User.findOne({ where: { email } });
+    const existEmail = await UserService.findByEmail(email);
     if (!existEmail) throw new CustomError("NOT_EXIST_EMAIL", 404, `${email}은 가입되지 않은 회원입니다.`);
 
     const salt = bcrypt.genSaltSync();
     const encryptedPwd = bcrypt.hashSync(password, salt);
-    await User.update({ password: encryptedPwd }, { where: { email } });
+    await UserService.updatePassword(encryptedPwd, email);
 
     return true;
   },
