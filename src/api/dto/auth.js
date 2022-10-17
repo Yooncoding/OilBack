@@ -1,5 +1,5 @@
 const AuthDto = {
-  register: (user) => {
+  userInfo: (user) => {
     return {
       id: user.id,
       email: user.email,

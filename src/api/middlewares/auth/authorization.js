@@ -2,15 +2,17 @@ import { verify } from "jsonwebtoken";
 import CustomError from "../../../utils/customError";
 import config from "../../../config";
 import UserService from "../../services/user";
+import AuthDto from "../../dto/auth";
 
 const auth = {
   isLogin: async (req, res, next) => {
     try {
       const { authorization } = req.headers;
       if (!authorization) throw new CustomError("UNAUTHENTICATED", 401, "로그인이 필요합니다.");
+
       const token = authorization.split(" ");
       const user = await tokenVerify(token);
-      req.user = { id: user.id, email: user.email, nickname: user.nickname };
+      req.user = AuthDto.userInfo(user);
       next();
     } catch (err) {
       next(err);
