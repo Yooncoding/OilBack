@@ -20,7 +20,7 @@ export default (app) => {
       secret: config.cookie_secret,
       resave: false,
       saveUninitialized: false,
-      cookie: { httpOnly: true, secure: true },
+      cookie: { httpOnly: true, secure: false },
     })
   );
   app.use(cors());

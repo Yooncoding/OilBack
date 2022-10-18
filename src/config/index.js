@@ -24,6 +24,17 @@ export default {
 
   // cookie
   cookie_secret: process.env.COOKIE_SECRET,
+  jwt_secret: process.env.JWT_SECRET,
+
+  // mail
+  mailOption: {
+    service: "gmail",
+    host: "smtp.gmail.com",
+    auth: {
+      user: process.env.GMAIL_EMAIL,
+      pass: process.env.GMAIL_PASSWORD,
+    },
+  },
 
   // api
   api: { prefix: "/api" },
