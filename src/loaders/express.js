@@ -12,6 +12,7 @@ import responseDto from "../utils/customResponse";
 export default (app) => {
   // middleware
   app.use(morgan(":method :status :url :response-time ms", { stream: logger.stream }));
+  app.use(cors({ origin: true, credentials: true }));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser(config.cookie_secret));
@@ -23,7 +24,6 @@ export default (app) => {
       cookie: { httpOnly: true, secure: false },
     })
   );
-  app.use(cors());
 
   // router
   app.use(config.api.prefix, routes());
