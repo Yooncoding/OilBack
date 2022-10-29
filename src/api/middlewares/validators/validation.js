@@ -47,6 +47,15 @@ const PostValidator = {
     next();
   },
 
+  searchPosts: (req, res, next) => {
+    const value = joi.object({ q: schema.q, filter: schema.filter, page: schema.page }).validate(req.query);
+    if (value.error) {
+      const error = new CustomError("VALID_ERROR", 400, value.error.details[0].message);
+      next(error);
+    }
+    next();
+  },
+
   putPost: (req, res, next) => {
     const value = joi.object({ title: schema.title, content: schema.content, weather: schema.weather }).validate(req.body);
     if (value.error) {

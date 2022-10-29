@@ -3,6 +3,7 @@ import moment from "moment";
 import CustomError from "../../utils/customError";
 import analyzeSentiment from "../../utils/clova";
 import PostImage from "../../models/PostImage";
+import Sequelize from "sequelize";
 
 const PostService = {
   write: async (userId, title, content, weather, image) => {
@@ -53,6 +54,32 @@ const PostService = {
     };
 
     return await PostService.updatePost(userId, postId, title, content, weather, convertedToday, sentimentData, image);
+  },
+
+  searchPost: async (userId, q, filter, page) => {
+    const op = Sequelize.Op;
+    if (q) q = q.trim();
+
+    let splitedWord = q.split(" "); // 띄어쓰기별 단어 분리
+    let combinedWord = ""; // 띄어쓰기 합치기
+    splitedWord.forEach((word) => {
+      combinedWord += word;
+    });
+
+    const PAGE_SIZE = 10; // 10개씩 pagination
+    const offset = page * PAGE_SIZE;
+
+    const posts = await Post.findAll({
+      where: {
+        userId,
+        [filter]: { [op.or]: [{ [op.like]: "%" + q + "%" }, { [op.like]: "%" + combinedWord + "%" }, { [op.regexp]: splitedWord.join("|") }] },
+      },
+      order: [["yyyymmdd", "desc"]],
+      offset: offset,
+      limit: PAGE_SIZE,
+    });
+
+    return posts;
   },
 
   findPostById: async (userId, postId) => {
