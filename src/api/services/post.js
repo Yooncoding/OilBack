@@ -78,7 +78,7 @@ const PostService = {
       order: [["yyyymmdd", "desc"]],
       offset: offset,
       limit: PAGE_SIZE,
-    });
+    }).then(await LogService.createLog(userId, q));
 
     return posts;
   },
