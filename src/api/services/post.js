@@ -2,9 +2,10 @@ import Post from "../../models/Post";
 import moment from "moment";
 import CustomError from "../../utils/customError";
 import analyzeSentiment from "../../utils/clova";
+import PostImage from "../../models/PostImage";
 
 const PostService = {
-  write: async (userId, title, content, weather) => {
+  write: async (userId, title, content, weather, image) => {
     const convertedToday = moment().subtract(4, "h").format("YYYY-MM-DD");
     const post = await PostService.findTodayPostByUser(userId, convertedToday);
     if (post) throw new CustomError("EXIST_TODAY_POST", 400, "오늘 이미 제출된 일기가 있습니다. (오늘 기준 -> TODAY 04:00 ~ TOMMORW 03:59)");
@@ -18,7 +19,7 @@ const PostService = {
       neutral: sentimentInfo.document.confidence.neutral,
     };
 
-    return await PostService.createPost(userId, title, content, weather, convertedToday, sentimentData);
+    return await PostService.createPost(userId, title, content, weather, convertedToday, sentimentData, image);
   },
 
   getPost: async (userId, postId) => {
@@ -48,18 +49,22 @@ const PostService = {
     return await Post.destroy({ where: { userId, id: postId } });
   },
 
-  createPost: async (userId, title, content, weather, convertedToday, sentimentData) => {
-    return await Post.create({
-      userId,
-      title,
-      content,
-      weather,
-      yyyymmdd: convertedToday,
-      sentiment: sentimentData.sentiment,
-      negative: sentimentData.negative,
-      positive: sentimentData.positive,
-      neutral: sentimentData.neutral,
-    });
+  createPost: async (userId, title, content, weather, convertedToday, sentimentData, image) => {
+    return await Post.create(
+      {
+        userId,
+        title,
+        content,
+        weather,
+        yyyymmdd: convertedToday,
+        sentiment: sentimentData.sentiment,
+        negative: sentimentData.negative,
+        positive: sentimentData.positive,
+        neutral: sentimentData.neutral,
+        post_image: { image_url: image },
+      },
+      { include: { model: PostImage } }
+    );
   },
 };
 

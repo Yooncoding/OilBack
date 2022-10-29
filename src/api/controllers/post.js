@@ -6,7 +6,9 @@ const PostController = {
     try {
       const { id } = req.user;
       const { title, content, weather } = req.body;
-      const data = await PostServcie.write(id, title, content, weather);
+      const image = req.file ? req.file.location : null;
+
+      const data = await PostServcie.write(id, title, content, weather, image);
 
       res.status(201).json(responseDto({ suc: true, mes: "오늘의 일기 제출 완료", data }));
     } catch (err) {
