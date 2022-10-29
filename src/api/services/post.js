@@ -37,6 +37,24 @@ const PostService = {
     return await PostService.destroyPostById(userId, postId);
   },
 
+  putPost: async (userId, postId, title, content, weather, image) => {
+    const convertedToday = moment().subtract(4, "h").format("YYYY-MM-DD");
+    const post = await PostService.findPostById(userId, postId);
+    if (!post) throw new CustomError("INVALID_ACCESS", 403, "비정상적인 접근입니다.");
+    if (post.yyyymmdd != convertedToday) throw new CustomError("NO_POST_TO_EDIT", 400, "오늘 작성한 일기만 수정할 수 있습니다. (오늘 기준 -> TODAY 04:00 ~ TOMMORW 03:59)");
+
+    const result = await analyzeSentiment(content);
+    const sentimentInfo = JSON.parse(result);
+    const sentimentData = {
+      sentiment: sentimentInfo.document.sentiment,
+      negative: sentimentInfo.document.confidence.negative,
+      positive: sentimentInfo.document.confidence.positive,
+      neutral: sentimentInfo.document.confidence.neutral,
+    };
+
+    return await PostService.updatePost(userId, postId, title, content, weather, convertedToday, sentimentData, image);
+  },
+
   findPostById: async (userId, postId) => {
     return await Post.findOne({ where: { userId, id: postId }, include: [{ model: PostImage }], paranoid: false });
   },
@@ -65,6 +83,23 @@ const PostService = {
       },
       { include: { model: PostImage } }
     );
+  },
+
+  updatePost: async (userId, postId, title, content, weather, convertedToday, sentimentData, image) => {
+    return await Post.update(
+      {
+        userId,
+        title,
+        content,
+        weather,
+        yyyymmdd: convertedToday,
+        sentiment: sentimentData.sentiment,
+        negative: sentimentData.negative,
+        positive: sentimentData.positive,
+        neutral: sentimentData.neutral,
+      },
+      { where: { id: postId } }
+    ).then(await PostImage.update({ image_url: image }, { where: { postId } }));
   },
 };
 

@@ -39,6 +39,21 @@ const PostController = {
       next(err);
     }
   },
+
+  putPost: async (req, res, next) => {
+    try {
+      const { id } = req.user;
+      const { postId } = req.params;
+      const { title, content, weather } = req.body;
+      const image = req.file ? req.file.location : null;
+
+      await PostServcie.putPost(id, postId, title, content, weather, image);
+
+      res.status(201).json(responseDto({ suc: true, mes: "오늘의 일기 수정 완료" }));
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 export default PostController;
