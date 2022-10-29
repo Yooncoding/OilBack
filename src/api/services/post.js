@@ -88,6 +88,10 @@ const PostService = {
     return logs;
   },
 
+  deleteSearchLog: async (userId, logId) => {
+    return await LogService.destroyLogById(userId, logId);
+  },
+
   findPostById: async (userId, postId) => {
     return await Post.findOne({ where: { userId, id: postId }, include: [{ model: PostImage }], paranoid: false });
   },

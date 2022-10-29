@@ -11,6 +11,7 @@ function postRouter(root) {
   router.use(auth.isLogin);
 
   router.get("/search/logs", PostController.getSearchLogs);
+  router.delete("/search/logs/:logId", PostController.deleteSearchLog);
   router.get("/search/result", PostValidator.searchPosts, PostController.searchPosts);
   router.post("/write", postImageUpload.single("image"), PostValidator.write, PostController.write);
   router.get("/:postId", PostController.getPost);

@@ -79,6 +79,18 @@ const PostController = {
       next(err);
     }
   },
+
+  deleteSearchLog: async (req, res, next) => {
+    try {
+      const { id } = req.user;
+      const { logId } = req.params;
+      await PostServcie.deleteSearchLog(id, logId);
+
+      res.status(200).json(responseDto({ suc: true, mes: "검색 기록 삭제 완료" }));
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 export default PostController;

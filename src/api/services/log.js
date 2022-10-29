@@ -7,6 +7,10 @@ const LogService = {
   createLog: async (userId, q) => {
     return await SearchHistory.create({ userId, log: q });
   },
+
+  destroyLogById: async (userId, logId) => {
+    return await SearchHistory.destroy({ where: { userId, id: logId } });
+  },
 };
 
 export default LogService;
