@@ -13,7 +13,7 @@ function postRouter(root) {
   router.post("/write", postImageUpload.single("image"), PostValidator.write, PostController.write);
   router.get("/:postId", PostController.getPost);
   router.delete("/:postId", PostController.deletePost);
-  router.put("/:postId", postImageUpload.single("image"), PostController.putPost);
+  router.put("/:postId", postImageUpload.single("image"), PostValidator.putPost, PostController.putPost);
 }
 
 export default postRouter;
