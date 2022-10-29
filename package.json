@@ -40,6 +40,8 @@
     "nodemailer": "^6.8.0",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9",
     "sequelize": "^6.25.0",
     "sequelize-cli": "^6.5.1",
     "winston": "^3.8.2",

@@ -36,6 +36,11 @@ export default {
     },
   },
 
+  clova: {
+    id: process.env.CLOVA_ID,
+    secret: process.env.CLOVA_SECRET,
+  },
+
   // api
   api: { prefix: "/api" },
 };
