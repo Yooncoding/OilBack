@@ -10,6 +10,9 @@ const schema = {
     .string()
     .regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/)
     .required(), // 영문, 숫자, 특수문자 혼합하여 8~16글자
+  title: joi.string().min(2).max(20).required(), // 2~20글자
+  content: joi.string().min(8).max(700).required(), // 8~700글자
+  weather: joi.string().min(2).max(20).required(), // 2~20글자
 };
 
 export default schema;
