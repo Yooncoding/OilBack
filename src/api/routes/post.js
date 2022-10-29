@@ -10,6 +10,7 @@ function postRouter(root) {
   root.use("/posts", router);
   router.use(auth.isLogin);
 
+  router.get("/search/logs", PostController.getSearchLogs);
   router.get("/search/result", PostValidator.searchPosts, PostController.searchPosts);
   router.post("/write", postImageUpload.single("image"), PostValidator.write, PostController.write);
   router.get("/:postId", PostController.getPost);

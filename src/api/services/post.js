@@ -4,6 +4,7 @@ import CustomError from "../../utils/customError";
 import analyzeSentiment from "../../utils/clova";
 import PostImage from "../../models/PostImage";
 import Sequelize from "sequelize";
+import LogService from "./log";
 
 const PostService = {
   write: async (userId, title, content, weather, image) => {
@@ -80,6 +81,11 @@ const PostService = {
     });
 
     return posts;
+  },
+
+  getSearchLogs: async (userId) => {
+    const logs = await LogService.findByUserId(userId);
+    return logs;
   },
 
   findPostById: async (userId, postId) => {

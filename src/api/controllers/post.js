@@ -68,6 +68,17 @@ const PostController = {
       next(err);
     }
   },
+
+  getSearchLogs: async (req, res, next) => {
+    try {
+      const { id } = req.user;
+      const logs = await PostServcie.getSearchLogs(id);
+
+      res.status(200).json(responseDto({ suc: true, mes: "일기 검색 페이지 내 검색 기록", data: logs }));
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 export default PostController;
