@@ -38,7 +38,7 @@ const PostService = {
   },
 
   findPostById: async (userId, postId) => {
-    return await Post.findOne({ where: { userId, id: postId }, paranoid: false });
+    return await Post.findOne({ where: { userId, id: postId }, include: [{ model: PostImage }], paranoid: false });
   },
 
   findTodayPostByUser: async (userId, convertedToday) => {
