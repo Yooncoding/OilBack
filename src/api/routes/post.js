@@ -10,6 +10,7 @@ function postRouter(root) {
   router.use(auth.isLogin);
 
   router.post("/write", PostValidator.write, PostController.write);
+  router.get("/:postId", PostController.getPost);
 }
 
 export default postRouter;

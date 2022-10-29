@@ -21,6 +21,18 @@ const PostService = {
     return await PostService.createPost(userId, title, content, weather, convertedToday, sentimentData);
   },
 
+  getPost: async (userId, postId) => {
+    const post = await PostService.findPostById(userId, postId);
+    if (!post) throw new CustomError("INVALID_ACCESS", 403, "비정상적인 접근입니다.");
+    if (post.deletedAt) throw new CustomError("NOT_EXIST_POST", 404, "삭제된 심부름입니다.");
+
+    return post;
+  },
+
+  findPostById: async (userId, postId) => {
+    return await Post.findOne({ where: { userId, id: postId }, paranoid: false });
+  },
+
   findTodayPostByUser: async (userId, convertedToday) => {
     return await Post.findOne({ where: { userId, yyyymmdd: convertedToday } });
   },

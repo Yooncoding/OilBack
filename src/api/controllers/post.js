@@ -13,6 +13,18 @@ const PostController = {
       next(err);
     }
   },
+
+  getPost: async (req, res, next) => {
+    try {
+      const { id } = req.user;
+      const { postId } = req.params;
+      const post = await PostServcie.getPost(id, postId);
+
+      res.status(200).json(responseDto({ suc: true, mes: "일기 상세 보기", data: post }));
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 export default PostController;
