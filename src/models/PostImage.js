@@ -8,10 +8,9 @@ export default class PostImage extends Sequelize.Model {
           defaultValue: Sequelize.UUIDV4,
           primaryKey: true,
         },
-        image_name: {
+        image_url: {
           type: Sequelize.TEXT,
-          allowNull: false,
-          defaultValue: "post-image-default.png",
+          allowNull: true,
         },
       },
       {
