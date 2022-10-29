@@ -25,6 +25,18 @@ const PostController = {
       next(err);
     }
   },
+
+  deletePost: async (req, res, next) => {
+    try {
+      const { id } = req.user;
+      const { postId } = req.params;
+      await PostServcie.deletePost(id, postId);
+
+      res.status(200).json(responseDto({ suc: true, mes: "일기 삭제 완료" }));
+    } catch (err) {
+      next(err);
+    }
+  },
 };
 
 export default PostController;

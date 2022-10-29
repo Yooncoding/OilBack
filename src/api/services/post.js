@@ -29,12 +29,23 @@ const PostService = {
     return post;
   },
 
+  deletePost: async (userId, postId) => {
+    const post = await PostService.findPostById(userId, postId);
+    if (!post) throw new CustomError("INVALID_ACCESS", 403, "비정상적인 접근입니다.");
+
+    return await PostService.destroyPostById(userId, postId);
+  },
+
   findPostById: async (userId, postId) => {
     return await Post.findOne({ where: { userId, id: postId }, paranoid: false });
   },
 
   findTodayPostByUser: async (userId, convertedToday) => {
     return await Post.findOne({ where: { userId, yyyymmdd: convertedToday } });
+  },
+
+  destroyPostById: async (userId, postId) => {
+    return await Post.destroy({ where: { userId, id: postId } });
   },
 
   createPost: async (userId, title, content, weather, convertedToday, sentimentData) => {

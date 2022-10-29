@@ -11,6 +11,7 @@ function postRouter(root) {
 
   router.post("/write", PostValidator.write, PostController.write);
   router.get("/:postId", PostController.getPost);
+  router.delete("/:postId", PostController.deletePost);
 }
 
 export default postRouter;
