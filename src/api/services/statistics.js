@@ -4,7 +4,7 @@ import PostService from "./post";
 const StatisticsService = {
   getStatistics: async (userId, tab) => {
     const posts = await PostService.findPostsForPeriod(userId, tab);
-    if (!posts) throw new CustomError("NOT_EXIST_POST", 404, `${tab}일동안 제출한 일기가 없습니다.`);
+    if (posts.length === 0) throw new CustomError("NOT_EXIST_POST", 404, `${tab}일동안 제출한 일기가 없습니다.`);
 
     let positiveSum = 0;
     let negativeSum = 0;
