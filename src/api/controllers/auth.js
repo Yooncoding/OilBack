@@ -26,8 +26,8 @@ const AuthController = {
 
   postEmailKey: async (req, res, next) => {
     try {
-      const { email } = req.body;
-      const key = await AuthService.postEmailKey(email);
+      const { email, type } = req.body;
+      const key = await AuthService.postEmailKey(email, type);
 
       res
         .cookie("emailKey", key, { expriensIn: "10m" })
