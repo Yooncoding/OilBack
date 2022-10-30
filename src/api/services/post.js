@@ -150,6 +150,14 @@ const PostService = {
       limit: PAGE_SIZE,
     });
   },
+  findPostsForCalendar: async (userId, year, month) => {
+    const op = Sequelize.Op;
+    year = year ? year : moment().format("YYYY");
+    month = month ? month : moment().format("MM");
+    const MONTHSTART = moment(`${year}-${month}`).startOf("month").format("YYYY-MM-DD");
+    const MONTHEND = moment(`${year}-${month}`).endOf("month").format("YYYY-MM-DD");
+    return await Post.findAll({ where: { yyyymmdd: { [op.gt]: MONTHSTART, [op.lt]: MONTHEND }, userId } });
+  },
 };
 
 export default PostService;

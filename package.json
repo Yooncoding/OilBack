@@ -26,6 +26,7 @@
     "nodemon": "^2.0.12"
   },
   "dependencies": {
+    "@joi/date": "^2.1.0",
     "aws-sdk": "^2.1243.0",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
