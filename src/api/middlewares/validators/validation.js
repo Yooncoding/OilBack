@@ -66,4 +66,15 @@ const PostValidator = {
   },
 };
 
-export { AuthValidator, PostValidator };
+const MainValidtor = {
+  getMain: (req, res, next) => {
+    const value = joi.object({ page: schema.page }).validate(req.query);
+    if (value.error) {
+      const error = new CustomError("VALID_ERROR", 400, value.error.details[0].message);
+      next(error);
+    }
+    next();
+  },
+};
+
+export { AuthValidator, PostValidator, MainValidtor };

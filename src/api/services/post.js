@@ -138,6 +138,18 @@ const PostService = {
       { where: { id: postId } }
     ).then(await PostImage.update({ image_url: image }, { where: { postId } }));
   },
+
+  findPostsByUserId: async (userId, page) => {
+    const PAGE_SIZE = 10; // 10개씩 pagination
+    const offset = page * PAGE_SIZE;
+
+    return await Post.findAll({
+      where: { userId },
+      order: [["yyyymmdd", "desc"]],
+      offset: offset,
+      limit: PAGE_SIZE,
+    });
+  },
 };
 
 export default PostService;
