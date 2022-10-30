@@ -16,9 +16,9 @@ const AuthController = {
   login: async (req, res, next) => {
     try {
       const { email, password } = req.body;
-      const token = await AuthService.login(email, password);
+      const loginInfo = await AuthService.login(email, password);
 
-      res.status(201).json(responseDto({ suc: true, mes: "로그인 성공", data: token }));
+      res.status(201).json(responseDto({ suc: true, mes: "로그인 성공", data: loginInfo }));
     } catch (err) {
       next(err);
     }
@@ -26,8 +26,8 @@ const AuthController = {
 
   postEmailKey: async (req, res, next) => {
     try {
-      const { email } = req.body;
-      const key = await AuthService.postEmailKey(email);
+      const { email, type } = req.body;
+      const key = await AuthService.postEmailKey(email, type);
 
       res
         .cookie("emailKey", key, { expriensIn: "10m" })

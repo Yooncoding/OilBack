@@ -27,21 +27,23 @@ const AuthService = {
     const result = await bcrypt.compare(password, user.password);
     if (!result) throw new CustomError("PASSWORD_IS_WRONG", 401, "비밀번호가 일치하지 않습니다.");
 
-    const token = jwt.sign({ id: user.id }, config.jwt_secret);
+    const loginInfo = {
+      token: jwt.sign({ id: user.id }, config.jwt_secret),
+      user: AuthDto.userInfo(user),
+    };
 
-    return token;
+    return loginInfo;
   },
 
-  postEmailKey: async (email) => {
+  postEmailKey: async (email, type) => {
     const existEmail = await UserService.findByEmail(email);
-    if (existEmail) throw new CustomError("EXIST_EMAIL", 409, `${email}은 이미 존재하는 이메일입니다.`);
+    if (existEmail & (type === "register")) throw new CustomError("EXIST_EMAIL", 409, `${email}은 이미 존재하는 이메일입니다.`);
+    if (!existEmail & (type === "password")) throw new CustomError("NOT_EXIST_EMAIL", 404, `${email}은 가입되지 않은 회원입니다.`);
 
     const key = generateKey();
     await sendKeyByEmail(email, key);
-    const salt = bcrypt.genSaltSync();
-    const encryptedKey = bcrypt.hashSync(key, salt);
 
-    return encryptedKey;
+    return key;
   },
 
   checkEmailKey: async (key, emaliKey) => {
