@@ -16,9 +16,9 @@ const AuthController = {
   login: async (req, res, next) => {
     try {
       const { email, password } = req.body;
-      const token = await AuthService.login(email, password);
+      const loginInfo = await AuthService.login(email, password);
 
-      res.status(201).json(responseDto({ suc: true, mes: "로그인 성공", data: token }));
+      res.status(201).json(responseDto({ suc: true, mes: "로그인 성공", data: loginInfo }));
     } catch (err) {
       next(err);
     }

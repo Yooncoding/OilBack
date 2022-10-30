@@ -27,9 +27,12 @@ const AuthService = {
     const result = await bcrypt.compare(password, user.password);
     if (!result) throw new CustomError("PASSWORD_IS_WRONG", 401, "비밀번호가 일치하지 않습니다.");
 
-    const token = jwt.sign({ id: user.id }, config.jwt_secret);
+    const loginInfo = {
+      token: jwt.sign({ id: user.id }, config.jwt_secret),
+      user: AuthDto.userInfo(user),
+    };
 
-    return token;
+    return loginInfo;
   },
 
   postEmailKey: async (email, type) => {
