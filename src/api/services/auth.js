@@ -38,10 +38,8 @@ const AuthService = {
 
     const key = generateKey();
     await sendKeyByEmail(email, key);
-    const salt = bcrypt.genSaltSync();
-    const encryptedKey = bcrypt.hashSync(key, salt);
 
-    return encryptedKey;
+    return key;
   },
 
   checkEmailKey: async (key, emaliKey) => {
