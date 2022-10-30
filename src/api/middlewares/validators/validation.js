@@ -77,4 +77,14 @@ const MainValidtor = {
   },
 };
 
-export { AuthValidator, PostValidator, MainValidtor };
+const CalendarValidator = {
+  getCalendar: (req, res, next) => {
+    const value = joi.object({ y: schema.y, m: schema.m }).validate(req.query);
+    if (value.error) {
+      const error = new CustomError("VALID_ERROR", 400, value.error.details[0].message);
+      next(error);
+    }
+    next();
+  },
+};
+export { AuthValidator, PostValidator, MainValidtor, CalendarValidator };

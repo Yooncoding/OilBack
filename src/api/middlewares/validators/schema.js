@@ -1,4 +1,7 @@
-import joi from "joi";
+import DateExtension from "@joi/date";
+import JoiImport from "joi";
+
+const joi = JoiImport.extend(DateExtension);
 
 const schema = {
   email: joi.string().email().min(6).required(),
@@ -18,6 +21,9 @@ const schema = {
   q: joi.string().min(2).required(),
   filter: joi.string().valid("title", "content").required(),
   page: joi.number().integer().min(0),
+
+  y: joi.date().format("YYYY"),
+  m: joi.date().format("MM"),
 };
 
 export default schema;
