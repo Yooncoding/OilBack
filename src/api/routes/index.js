@@ -4,7 +4,6 @@ import postRouter from "./post";
 import mainRouter from "./main";
 import calendarRouter from "./calendar";
 import userRouter from "./user";
-import statisticsRouter from "./statistics";
 
 const rootRouter = Router();
 
@@ -14,7 +13,6 @@ export default () => {
   mainRouter(rootRouter);
   calendarRouter(rootRouter);
   userRouter(rootRouter);
-  statisticsRouter(rootRouter);
 
   return rootRouter;
 };

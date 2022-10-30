@@ -87,14 +87,4 @@ const CalendarValidator = {
     next();
   },
 };
-const StatisticsValidator = {
-  getStatistics: (req, res, next) => {
-    const value = joi.object({ tab: schema.tab }).validate(req.query);
-    if (value.error) {
-      const error = new CustomError("VALID_ERROR", 400, value.error.details[0].message);
-      next(error);
-    }
-    next();
-  },
-};
-export { AuthValidator, PostValidator, MainValidtor, CalendarValidator, StatisticsValidator };
+export { AuthValidator, PostValidator, MainValidtor, CalendarValidator };

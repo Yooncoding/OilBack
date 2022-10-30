@@ -156,17 +156,7 @@ const PostService = {
     month = month ? month : moment().format("MM");
     const MONTHSTART = moment(`${year}-${month}`).startOf("month").format("YYYY-MM-DD");
     const MONTHEND = moment(`${year}-${month}`).endOf("month").format("YYYY-MM-DD");
-
-    return await Post.findAll({ where: { yyyymmdd: { [op.gte]: MONTHSTART, [op.lte]: MONTHEND }, userId } });
-  },
-
-  findPostsForPeriod: async (userId, tab) => {
-    const op = Sequelize.Op;
-    const days = parseInt(tab);
-    const START = moment().subtract(days, "d").format("YYYY-MM-DD");
-    const END = moment().format("YYYY-MM-DD");
-
-    return await Post.findAll({ where: { yyyymmdd: { [op.gt]: START, [op.lte]: END }, userId } });
+    return await Post.findAll({ where: { yyyymmdd: { [op.gt]: MONTHSTART, [op.lt]: MONTHEND }, userId } });
   },
 };
 
