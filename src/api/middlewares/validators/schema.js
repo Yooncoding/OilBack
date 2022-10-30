@@ -24,6 +24,8 @@ const schema = {
 
   y: joi.date().format("YYYY"),
   m: joi.date().format("MM"),
+
+  tab: joi.number().integer().valid(7, 30, 100, 365).required(),
 };
 
 export default schema;
