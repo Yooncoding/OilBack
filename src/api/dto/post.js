@@ -5,6 +5,7 @@ const PostDto = {
     return {
       id: post.id,
       userId: post.userId,
+      title: post.title,
       content: post.content,
       weather: post.weather,
       sentiment: post.sentiment,
