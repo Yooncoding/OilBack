@@ -5,6 +5,7 @@ import analyzeSentiment from "../../utils/clova";
 import PostImage from "../../models/PostImage";
 import Sequelize from "sequelize";
 import LogService from "./log";
+import PostDto from "../dto/post";
 
 const PostService = {
   write: async (userId, title, content, weather, image) => {
@@ -21,7 +22,8 @@ const PostService = {
       neutral: sentimentInfo.document.confidence.neutral,
     };
 
-    return await PostService.createPost(userId, title, content, weather, convertedToday, sentimentData, image);
+    const newPost = await PostService.createPost(userId, title, content, weather, convertedToday, sentimentData, image);
+    return PostDto.postInfo(newPost);
   },
 
   getPost: async (userId, postId) => {
@@ -29,7 +31,7 @@ const PostService = {
     if (!post) throw new CustomError("INVALID_ACCESS", 403, "비정상적인 접근입니다.");
     if (post.deletedAt) throw new CustomError("NOT_EXIST_POST", 404, "삭제된 심부름입니다.");
 
-    return post;
+    return PostDto.postInfo(post);
   },
 
   deletePost: async (userId, postId) => {
@@ -80,7 +82,12 @@ const PostService = {
       limit: PAGE_SIZE,
     }).then(await LogService.createLog(userId, q));
 
-    return posts;
+    const filteredPosts = [];
+    posts.map((post) => {
+      filteredPosts.push(PostDto.postInfo(post));
+    });
+
+    return filteredPosts;
   },
 
   getSearchLogs: async (userId) => {
@@ -143,13 +150,20 @@ const PostService = {
     const PAGE_SIZE = 10; // 10개씩 pagination
     const offset = page * PAGE_SIZE;
 
-    return await Post.findAll({
+    const posts = await Post.findAll({
       where: { userId },
       order: [["yyyymmdd", "desc"]],
       offset: offset,
       limit: PAGE_SIZE,
     });
+    const filteredPosts = [];
+    posts.map((post) => {
+      filteredPosts.push(PostDto.postInfo(post));
+    });
+
+    return filteredPosts;
   },
+
   findPostsForCalendar: async (userId, year, month) => {
     const op = Sequelize.Op;
     year = year ? year : moment().format("YYYY");
@@ -157,7 +171,13 @@ const PostService = {
     const MONTHSTART = moment(`${year}-${month}`).startOf("month").format("YYYY-MM-DD");
     const MONTHEND = moment(`${year}-${month}`).endOf("month").format("YYYY-MM-DD");
 
-    return await Post.findAll({ where: { yyyymmdd: { [op.gte]: MONTHSTART, [op.lte]: MONTHEND }, userId } });
+    const posts = await Post.findAll({ where: { yyyymmdd: { [op.gte]: MONTHSTART, [op.lte]: MONTHEND }, userId } });
+    const filteredPosts = [];
+    posts.map((post) => {
+      filteredPosts.push(PostDto.postInfo(post));
+    });
+
+    return filteredPosts;
   },
 
   findPostsForPeriod: async (userId, tab) => {
@@ -166,7 +186,13 @@ const PostService = {
     const START = moment().subtract(days, "d").format("YYYY-MM-DD");
     const END = moment().format("YYYY-MM-DD");
 
-    return await Post.findAll({ where: { yyyymmdd: { [op.gt]: START, [op.lte]: END }, userId } });
+    const posts = await Post.findAll({ where: { yyyymmdd: { [op.gt]: START, [op.lte]: END }, userId } });
+    const filteredPosts = [];
+    posts.map((post) => {
+      filteredPosts.push(PostDto.postInfo(post));
+    });
+
+    return filteredPosts;
   },
 };
 
