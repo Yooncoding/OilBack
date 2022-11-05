@@ -36,6 +36,10 @@ export default class Post extends Sequelize.Model {
           type: Sequelize.STRING(20),
           allowNull: false,
         },
+        highlight: {
+          type: Sequelize.TEXT,
+          allowNull: false,
+        },
         yyyymmdd: {
           type: Sequelize.DATEONLY,
           allowNull: false,
