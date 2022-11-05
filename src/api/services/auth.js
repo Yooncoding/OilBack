@@ -37,8 +37,8 @@ const AuthService = {
 
   postEmailKey: async (email, type) => {
     const existEmail = await UserService.findByEmail(email);
-    if (existEmail & (type === "register")) throw new CustomError("EXIST_EMAIL", 409, `${email}은 이미 존재하는 이메일입니다.`);
-    if (!existEmail & (type === "password")) throw new CustomError("NOT_EXIST_EMAIL", 404, `${email}은 가입되지 않은 회원입니다.`);
+    if (existEmail && (type === "register")) throw new CustomError("EXIST_EMAIL", 409, `${email}은 이미 존재하는 이메일입니다.`);
+    if (!existEmail && (type === "password")) throw new CustomError("NOT_EXIST_EMAIL", 404, `${email}은 가입되지 않은 회원입니다.`);
 
     const key = generateKey();
     await sendKeyByEmail(email, key);
