@@ -187,12 +187,8 @@ const PostService = {
     const END = moment().format("YYYY-MM-DD");
 
     const posts = await Post.findAll({ where: { yyyymmdd: { [op.gt]: START, [op.lte]: END }, userId } });
-    const filteredPosts = [];
-    posts.map((post) => {
-      filteredPosts.push(PostDto.postInfo(post));
-    });
 
-    return filteredPosts;
+    return posts;
   },
 };
 
