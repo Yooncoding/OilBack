@@ -22,6 +22,15 @@ const PostService = {
       neutral: sentimentInfo.document.confidence.neutral,
     };
 
+    const highlights = [];
+    sentimentInfo.sentences.forEach((sentence) => {
+      if (sentimentInfo.document.sentiment == sentence.sentiment) {
+        highlights.push(sentence.content);
+      }
+    });
+
+    const highlight = highlights[Math.floor(Math.random() * highlights.length)];
+
     const newPost = await PostService.createPost(userId, title, content, weather, convertedToday, sentimentData, image);
     return PostDto.postInfo(newPost);
   },
