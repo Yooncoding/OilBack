@@ -8,6 +8,7 @@ const PostDto = {
       title: post.title,
       content: post.content,
       weather: post.weather,
+      highlight: post.highlight,
       sentiment: post.sentiment,
       positive: post.positive,
       negative: post.negative,
