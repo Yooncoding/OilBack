@@ -31,7 +31,7 @@ const PostService = {
 
     const highlight = highlights[Math.floor(Math.random() * highlights.length)];
 
-    const newPost = await PostService.createPost(userId, title, content, weather, convertedToday, sentimentData, image);
+    const newPost = await PostService.createPost(userId, title, content, weather, convertedToday, sentimentData, highlight, image);
     return PostDto.postInfo(newPost);
   },
 
@@ -120,7 +120,7 @@ const PostService = {
     return await Post.destroy({ where: { userId, id: postId } });
   },
 
-  createPost: async (userId, title, content, weather, convertedToday, sentimentData, image) => {
+  createPost: async (userId, title, content, weather, convertedToday, sentimentData, highlight, image) => {
     return await Post.create(
       {
         userId,
@@ -132,6 +132,7 @@ const PostService = {
         negative: sentimentData.negative,
         positive: sentimentData.positive,
         neutral: sentimentData.neutral,
+        highlight,
         post_image: { image_url: image },
       },
       { include: { model: PostImage } }
