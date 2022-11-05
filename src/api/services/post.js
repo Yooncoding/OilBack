@@ -65,7 +65,16 @@ const PostService = {
       neutral: sentimentInfo.document.confidence.neutral,
     };
 
-    return await PostService.updatePost(userId, postId, title, content, weather, convertedToday, sentimentData, image);
+    const highlights = [];
+    sentimentInfo.sentences.forEach((sentence) => {
+      if (sentimentInfo.document.sentiment == sentence.sentiment) {
+        highlights.push(sentence.content);
+      }
+    });
+
+    const highlight = highlights[Math.floor(Math.random() * highlights.length)];
+
+    return await PostService.updatePost(userId, postId, title, content, weather, convertedToday, sentimentData, highlight, image);
   },
 
   searchPost: async (userId, q, filter, page) => {
@@ -139,7 +148,7 @@ const PostService = {
     );
   },
 
-  updatePost: async (userId, postId, title, content, weather, convertedToday, sentimentData, image) => {
+  updatePost: async (userId, postId, title, content, weather, convertedToday, sentimentData, highlight, image) => {
     return await Post.update(
       {
         userId,
@@ -151,6 +160,7 @@ const PostService = {
         negative: sentimentData.negative,
         positive: sentimentData.positive,
         neutral: sentimentData.neutral,
+        highlight,
       },
       { where: { id: postId } }
     ).then(await PostImage.update({ image_url: image }, { where: { postId } }));
