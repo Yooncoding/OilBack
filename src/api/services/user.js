@@ -24,6 +24,15 @@ const UserService = {
     return true;
   },
 
+  putNickname: async (userId, nickname) => {
+    const existNickname = await UserService.findByNickname(nickname);
+    if (existNickname) throw new CustomError("EXIST_NICKNAME", 409, `${nickname}은 이미 존재하는 닉네임입니다.`);
+
+    await UserService.updateNickname(userId, nickname);
+
+    return true;
+  },
+
   findById: async (userId) => {
     return await User.findByPk(userId);
   },
@@ -45,12 +54,8 @@ const UserService = {
   destroyPostById: async (userId) => {
     return await User.destroy({ where: { id: userId } });
   },
-
-  putNickname: async (email, nickname) => {
-    const existNickname = await UserService.findByNickname(nickname);
-    if (existNickname) throw new CustomError("EXIST_NICKNAME", 409, `${nickname}은 이미 존재하는 닉네임입니다.`);
-
-    return await User.update({ nickname }, { where: { email } });
+  updateNickname: async (userId, nickname) => {
+    return await User.update({ nickname }, { where: { id: userId } });
   },
 };
 

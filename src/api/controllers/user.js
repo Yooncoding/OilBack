@@ -29,8 +29,9 @@ const UserContoller = {
 
   putNickname: async (req, res, next) => {
     try {
-      const { email, nickname } = req.body;
-      await UserService.putNickname(email, nickname);
+      const { id } = req.user;
+      const { nickname } = req.body;
+      await UserService.putNickname(id, nickname);
 
       res.status(200).json(responseDto({ suc: true, mes: "닉네임 변경 완료" }));
     } catch (err) {
