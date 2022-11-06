@@ -32,7 +32,7 @@ const UserService = {
     return await User.destroy({ where: { id: userId } });
   },
 
-  putNickname: async (email) => {
+  putNickname: async (email, nickname) => {
     const existNickname = await UserService.findByNickname(nickname);
     if (existNickname) throw new CustomError("EXIST_NICKNAME", 409, `${nickname}은 이미 존재하는 닉네임입니다.`);
 
