@@ -13,6 +13,17 @@ const UserService = {
     return await UserService.destroyPostById(userId);
   },
 
+  putPassword: async (userId, password) => {
+    const user = await UserService.findById(userId);
+    if (!user) throw new CustomError("INVALID_ACCESS", 403, "비정상적인 접근입니다.");
+
+    const salt = bcrypt.genSaltSync();
+    const encryptedPwd = bcrypt.hashSync(password, salt);
+    await UserService.updatePasswordById(encryptedPwd, userId);
+
+    return true;
+  },
+
   findById: async (userId) => {
     return await User.findByPk(userId);
   },
@@ -27,6 +38,9 @@ const UserService = {
   },
   updatePassword: async (password, email) => {
     return await User.update({ password }, { where: { email } });
+  },
+  updatePasswordById: async (password, userId) => {
+    return await User.update({ password }, { where: { id: userId } });
   },
   destroyPostById: async (userId) => {
     return await User.destroy({ where: { id: userId } });

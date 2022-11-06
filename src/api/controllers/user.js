@@ -17,8 +17,9 @@ const UserContoller = {
 
   putPassword: async (req, res, next) => {
     try {
-      const { email, password } = req.body;
-      await AuthService.putPassword(email, password);
+      const { id } = req.user;
+      const { password } = req.body;
+      await UserService.putPassword(id, password);
 
       res.status(200).json(responseDto({ suc: true, mes: "비밀번호 변경 완료" }));
     } catch (err) {
