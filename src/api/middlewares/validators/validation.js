@@ -97,4 +97,15 @@ const StatisticsValidator = {
     next();
   },
 };
-export { AuthValidator, PostValidator, MainValidtor, CalendarValidator, StatisticsValidator };
+const UserValidator = {
+  putPassword: (req, res, next) => {
+    const value = joi.object({ password: schema.password }).validate(req.body);
+    if (value.error) {
+      const error = new CustomError("VALID_ERROR", 400, value.error.details[0].message);
+      next(error);
+    }
+    next();
+  },
+};
+
+export { AuthValidator, PostValidator, MainValidtor, CalendarValidator, StatisticsValidator, UserValidator };
