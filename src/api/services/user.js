@@ -13,6 +13,27 @@ const UserService = {
     return await UserService.destroyPostById(userId);
   },
 
+  putPassword: async (userId, password) => {
+    const user = await UserService.findById(userId);
+    if (!user) throw new CustomError("INVALID_ACCESS", 403, "비정상적인 접근입니다.");
+
+    const salt = bcrypt.genSaltSync();
+    const encryptedPwd = bcrypt.hashSync(password, salt);
+    await UserService.updatePasswordById(encryptedPwd, userId);
+
+    return true;
+  },
+
+  putNickname: async (userId, nickname) => {
+    const existNickname = await UserService.findByNickname(nickname);
+    if (existNickname.id === userId) return true; // 기존 닉네임과 같은 경우
+    if (existNickname) throw new CustomError("EXIST_NICKNAME", 409, `${nickname}은 이미 존재하는 닉네임입니다.`);
+
+    await UserService.updateNickname(userId, nickname);
+
+    return true;
+  },
+
   findById: async (userId) => {
     return await User.findByPk(userId);
   },
@@ -28,8 +49,14 @@ const UserService = {
   updatePassword: async (password, email) => {
     return await User.update({ password }, { where: { email } });
   },
+  updatePasswordById: async (password, userId) => {
+    return await User.update({ password }, { where: { id: userId } });
+  },
   destroyPostById: async (userId) => {
     return await User.destroy({ where: { id: userId } });
+  },
+  updateNickname: async (userId, nickname) => {
+    return await User.update({ nickname }, { where: { id: userId } });
   },
 };
 
