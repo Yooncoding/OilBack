@@ -106,6 +106,15 @@ const UserValidator = {
     }
     next();
   },
+
+  putNickname: (req, res, next) => {
+    const value = joi.object({ nickname: schema.nickname }).validate(req.body);
+    if (value.error) {
+      const error = new CustomError("VALID_ERROR", 400, value.error.details[0].message);
+      next(error);
+    }
+    next();
+  },
 };
 
 export { AuthValidator, PostValidator, MainValidtor, CalendarValidator, StatisticsValidator, UserValidator };

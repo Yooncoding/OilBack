@@ -10,7 +10,7 @@ function userRouter(root) {
   router.use(auth.isLogin);
 
   router.put("/password", UserValidator.putPassword, UserController.putPassword);
-  router.put("/nickname", UserController.putNickname);
+  router.put("/nickname", UserValidator.putNickname, UserController.putNickname);
   router.delete("/account", UserController.deleteAccount);
 }
 
