@@ -77,7 +77,7 @@ const PostService = {
     return await PostService.updatePost(userId, postId, title, content, weather, convertedToday, sentimentData, highlight, image);
   },
 
-  searchPost: async (userId, q, filter, page) => {
+  searchPost: async (userId, q, page) => {
     const op = Sequelize.Op;
     if (q) q = q.trim();
 
@@ -93,7 +93,10 @@ const PostService = {
     const posts = await Post.findAll({
       where: {
         userId,
-        [filter]: { [op.or]: [{ [op.like]: "%" + q + "%" }, { [op.like]: "%" + combinedWord + "%" }, { [op.regexp]: splitedWord.join("|") }] },
+        [op.or]: [
+          { title: { [op.or]: [{ [op.like]: "%" + q + "%" }, { [op.like]: "%" + combinedWord + "%" }, { [op.regexp]: splitedWord.join("|") }] } },
+          { content: { [op.or]: [{ [op.like]: "%" + q + "%" }, { [op.like]: "%" + combinedWord + "%" }, { [op.regexp]: splitedWord.join("|") }] } },
+        ],
       },
       order: [["yyyymmdd", "desc"]],
       offset: offset,

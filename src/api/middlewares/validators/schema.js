@@ -19,7 +19,6 @@ const schema = {
   weather: joi.string().min(2).max(20).required(), // 2~20글자
 
   q: joi.string().min(2).required(),
-  filter: joi.string().valid("title", "content").required(),
   page: joi.number().integer().min(0),
 
   y: joi.date().format("YYYY"),
