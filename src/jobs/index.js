@@ -44,6 +44,15 @@ const jobs = {
       logger.error(err);
     }
   }),
+
+  insertWords: schedule.scheduleJob("50 59 3 * * *", async () => {
+    try {
+      const convertedToday = moment().subtract(4, "h").format("YYYY-MM-DD");
+      const posts = await PostService.findTodayPost(convertedToday);
+    } catch (err) {
+      logger.error(err);
+    }
+  }),
 };
 
 export default jobs;
