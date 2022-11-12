@@ -14,17 +14,6 @@ const MainController = {
       next(err);
     }
   },
-
-  test: async (req, res, next) => {
-    try {
-      const conn = await getConnection();
-      await conn.execute("INSERT INTO test(id) VALUES(?)", [2]);
-      conn.release();
-      res.status(201).json({ success: true });
-    } catch (err) {
-      next(err);
-    }
-  },
 };
 
 export default MainController;
