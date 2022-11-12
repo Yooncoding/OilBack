@@ -22,6 +22,13 @@ export default {
     logging: false,
   },
 
+  rds: {
+    database: process.env.RDS_DATABASE,
+    user: process.env.RDS_USER,
+    password: process.env.RDS_PASSWORD,
+    host: process.env.RDS_HOST,
+  },
+
   // cookie
   cookie_secret: process.env.COOKIE_SECRET,
   jwt_secret: process.env.JWT_SECRET,

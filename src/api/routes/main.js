@@ -10,6 +10,7 @@ function mainRouter(root) {
   router.use(auth.isLogin);
 
   router.get("/", MainValidtor.getMain, MainController.getMain);
+  router.get("/test", MainController.test);
 }
 
 export default mainRouter;
