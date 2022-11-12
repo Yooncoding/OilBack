@@ -48,7 +48,7 @@ const PostValidator = {
   },
 
   searchPosts: (req, res, next) => {
-    const value = joi.object({ q: schema.q, filter: schema.filter, page: schema.page }).validate(req.query);
+    const value = joi.object({ q: schema.q, page: schema.page }).validate(req.query);
     if (value.error) {
       const error = new CustomError("VALID_ERROR", 400, value.error.details[0].message);
       next(error);

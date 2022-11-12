@@ -58,10 +58,10 @@ const PostController = {
   searchPosts: async (req, res, next) => {
     try {
       const { id } = req.user;
-      const { q, filter } = req.query;
+      const { q } = req.query;
       const page = req.query.page ? req.query.page : 0;
 
-      const posts = await PostServcie.searchPost(id, q, filter, page);
+      const posts = await PostServcie.searchPost(id, q, page);
 
       res.status(200).json(responseDto({ suc: true, mes: "일기 검색 결과", data: posts }));
     } catch (err) {
