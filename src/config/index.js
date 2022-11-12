@@ -48,6 +48,10 @@ export default {
     secret: process.env.CLOVA_SECRET,
   },
 
+  matgim: {
+    api_key: process.env.MATGIM_KEY,
+  },
+
   aws: {
     region: "ap-northeast-2",
     accessKeyId: process.env.AWS_S3_KEY_ID,
