@@ -213,6 +213,10 @@ const PostService = {
 
     return posts;
   },
+
+  findTodayPost: async (convertedToday) => {
+    return await Post.findAll({ where: { yyyymmdd: convertedToday } });
+  },
 };
 
 export default PostService;

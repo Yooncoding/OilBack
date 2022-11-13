@@ -1,5 +1,6 @@
 import responseDto from "../../utils/customResponse";
 import MainService from "../services/main";
+import getConnection from "../../utils/rds";
 
 const MainController = {
   getMain: async (req, res, next) => {
