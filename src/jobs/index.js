@@ -3,6 +3,7 @@ import logger from "../utils/logger";
 import getConnection from "../utils/rds";
 import PostService from "../api/services/post";
 import moment from "moment";
+import exportWords from "../utils/matgim";
 
 const jobs = {
   insertSentiment: schedule.scheduleJob("55 59 3 * * *", async () => {
@@ -47,8 +48,40 @@ const jobs = {
 
   insertWords: schedule.scheduleJob("50 59 3 * * *", async () => {
     try {
+      let cnt = 0;
       const convertedToday = moment().subtract(4, "h").format("YYYY-MM-DD");
       const posts = await PostService.findTodayPost(convertedToday);
+
+      posts.forEach(async (post) => {
+        logger.info(`${convertedToday} # ${cnt}: INSERT KEYWORDS SCHEDULING`);
+        cnt += 1;
+        const document = await exportWords(post.content);
+        const { sentences } = JSON.parse(document);
+        sentences.forEach(async (sentence) => {
+          const keywords = sentence.keywords;
+          keywords.forEach(async (keyword) => {
+            const conn = await getConnection();
+            const selectQuery = `
+            SELECT * FROM words WHERE yyyymmdd=? AND word=?`;
+            const selectValues = [convertedToday, keyword.word];
+            const [row] = await conn.execute(selectQuery, selectValues);
+            const word = row[0];
+
+            if (word) {
+              const updateQuery = `
+              UPDATE words SET cnt=? WHERE yyyymmdd=? AND word=?`;
+              const updateValues = [word.cnt + keyword.freq, convertedToday, keyword.word];
+              await conn.execute(updateQuery, updateValues);
+            } else {
+              const insertQuery = `
+              INSERT INTO words(yyyymmdd, word, cnt) VALUES(?, ?, ?)`;
+              const insertValues = [convertedToday, keyword.word, keyword.freq];
+              await conn.execute(insertQuery, insertValues);
+            }
+            conn.release();
+          });
+        });
+      });
     } catch (err) {
       logger.error(err);
     }
