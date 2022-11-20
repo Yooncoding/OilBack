@@ -38,7 +38,7 @@ const PostService = {
   getPost: async (userId, postId) => {
     const post = await PostService.findPostById(userId, postId);
     if (!post) throw new CustomError("INVALID_ACCESS", 403, "비정상적인 접근입니다.");
-    if (post.deletedAt) throw new CustomError("NOT_EXIST_POST", 404, "삭제된 심부름입니다.");
+    if (post.deletedAt) throw new CustomError("NOT_EXIST_POST", 404, "삭제된 일기입니다.");
 
     return PostDto.postInfo(post);
   },
@@ -81,13 +81,13 @@ const PostService = {
     const op = Sequelize.Op;
     if (q) q = q.trim();
 
-    let splitedWord = q.split(" "); // 띄어쓰기별 단어 분리
-    let combinedWord = ""; // 띄어쓰기 합치기
+    let splitedWord = q.split(" ");
+    let combinedWord = "";
     splitedWord.forEach((word) => {
       combinedWord += word;
     });
 
-    const PAGE_SIZE = 10; // 10개씩 pagination
+    const PAGE_SIZE = 10;
     const offset = page * PAGE_SIZE;
 
     const posts = await Post.findAll({
@@ -170,7 +170,7 @@ const PostService = {
   },
 
   findPostsByUserId: async (userId, page) => {
-    const PAGE_SIZE = 10; // 10개씩 pagination
+    const PAGE_SIZE = 10;
     const offset = page * PAGE_SIZE;
 
     const posts = await Post.findAll({

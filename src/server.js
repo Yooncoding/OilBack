@@ -6,10 +6,8 @@ import logger from "./utils/logger";
 async function startServer() {
   const app = express();
 
-  // loader
   await loader(app);
 
-  // port binding
   app
     .listen(config.port, () => {
       console.log(`

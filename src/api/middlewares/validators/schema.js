@@ -8,15 +8,15 @@ const schema = {
   nickname: joi
     .string()
     .regex(/^[가-힣|a-z|A-Z|0-9|]{2,8}$/)
-    .required(), // 특수문자 제외 2~8글자
+    .required(),
   password: joi
     .string()
     .regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/)
-    .required(), // 영문, 숫자, 특수문자 혼합하여 8~16글자
+    .required(),
   type: joi.string().valid("register", "password").required(),
-  title: joi.string().min(2).max(20).required(), // 2~20글자
-  content: joi.string().min(8).max(700).required(), // 8~700글자
-  weather: joi.string().min(2).max(20).required(), // 2~20글자
+  title: joi.string().min(2).max(20).required(),
+  content: joi.string().min(8).max(700).required(),
+  weather: joi.string().min(2).max(20).required(),
 
   q: joi.string().min(2).required(),
   page: joi.number().integer().min(0),

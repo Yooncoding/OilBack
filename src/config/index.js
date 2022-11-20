@@ -8,10 +8,8 @@ if (envFound.error) {
 }
 
 export default {
-  // port
   port: parseInt(process.env.PORT),
 
-  // database
   mysql: {
     database: process.env.MYSQL_DATABASE,
     username: process.env.MYSQL_USERNAME,
@@ -29,11 +27,9 @@ export default {
     host: process.env.RDS_HOST,
   },
 
-  // cookie
   cookie_secret: process.env.COOKIE_SECRET,
   jwt_secret: process.env.JWT_SECRET,
 
-  // mail
   mailOption: {
     service: "gmail",
     host: "smtp.gmail.com",
@@ -58,6 +54,5 @@ export default {
     secretAccessKey: process.env.AWS_S3_KEY_SECRET,
   },
 
-  // api
   api: { prefix: "/api" },
 };
